@@ -1,4 +1,5 @@
 import random as rnd
+
 class almacen:
     def __init__(self,d,a,m):
         self.dato=d
@@ -21,7 +22,6 @@ class listaLigada:
             self.inicio=almacen(ini,-1,self.ultimo)
             self.almacenes[self.ultimo-1]=self.inicio
             self.tamanio=1
-   
    
     def push(self,dato):
         if(self.tamanio>=50):
@@ -62,3 +62,31 @@ class listaLigada:
             return dato
         else:
             print("Error: No hay elementos en la lista")
+
+    def insert(self, dato, posicion):
+        if self.tamanio >= 50:
+            print("Error: La lista está llena")
+        else:
+            if posicion > self.tamanio:
+                print("Error: La posición es mayor que el tamaño de la lista")
+            else:
+                prox = rnd.randint(1, 50)
+                while prox in self.ocupados:
+                    prox = rnd.randint(1, 50)
+                nuevo = almacen(dato, self.almacenes[posicion-1].apuntador, prox)
+                self.almacenes[posicion-1].apuntador = prox
+                self.almacenes[prox-1] = nuevo
+                self.ocupados.append(prox)
+                self.tamanio += 1
+
+    def remove(self, posicion):
+        if self.tamanio == 0:
+            print("Error: No hay elementos en la lista")
+        else:
+            if posicion > self.tamanio:
+                print("Error: La posición es mayor que el tamaño de la lista")
+            else:
+                self.almacenes[self.almacenes[posicion-2].apuntador-1].apuntador = self.almacenes[posicion-1].apuntador
+                self.almacenes[posicion-1] = None
+                self.ocupados.remove(posicion)
+                self.tamanio -= 1
